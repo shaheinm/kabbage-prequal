@@ -66,7 +66,7 @@ var config = {
 
   externals: {
     'Config': JSON.stringify({
-      serverUrl: "http://api.kabbage.com/v2/prequalify"
+      serverUrl: "https://api.kabbage.com/v2/prequalify"
     })
   },
 };

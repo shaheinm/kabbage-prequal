@@ -5,13 +5,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Colors from 'material-ui/lib/styles/colors';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import KabbageTheme from './shared/KabbageTheme';
+import KabbageForm from './form/prequalify';
 
-const styles = {
-  container: {
-    textAlign: 'center',
-    paddingTop: 200,
-  },
-};
 
 const Main = React.createClass({
   getInitialState: function () {
@@ -34,9 +29,7 @@ const Main = React.createClass({
 
   render: function () {
         return (
-          <div>
-            <h2>Kabbage Prequalification Form!</h2>
-          </div>
+            <KabbageForm />
         );
   },
 })
