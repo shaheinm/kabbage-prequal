@@ -65,21 +65,29 @@ const KabbageForm = React.createClass({
       api_key: 'vauwg9sbqkrdnzdmr7eyk92t',
     }
 
+    let formBody = [];
+    for (let property in data) {
+      let encodedKey = encodeURIComponent(property);
+      let encodedValue = encodeURIComponent(data[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     $.ajax({
       url: Config.serverUrl,
-      dataType: 'json',
+      //dataType: 'json',
       type: 'POST',
-      data: data,
-      success: function(data, response) {
+      data: formBody,
+      success: function(data, textStatus, xhr) {
         self.setState({data: data});
-        console.log(response);
+        console.log(xhr.responseJSON);
       }.bind(self),
       error: function(xhr, status, err) {
         console.error(Config.serverUrl, status, err.toString());
       }.bind(self),
     });
 
-    console.log(data);
+    console.log(formBody);
 
     self.setState({firstName: '', lastName: '', emailAddress: '', businessName: '', phoneNumber: '', yearStarted: '', estimatedFICO: '', estimatedAnnualRevenue: '', grossPercentageFromCards: '', typeOfBusiness: ''});
 
