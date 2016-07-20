@@ -70,8 +70,9 @@ const KabbageForm = React.createClass({
       dataType: 'json',
       type: 'POST',
       data: data,
-      success: function(data) {
+      success: function(data, response) {
         self.setState({data: data});
+        console.log(response);
       }.bind(self),
       error: function(xhr, status, err) {
         console.error(Config.serverUrl, status, err.toString());
