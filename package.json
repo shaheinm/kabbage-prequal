@@ -4,8 +4,9 @@
   "description": "Prequalification form for Kabbage API",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors",
-    "build": "webpack --config webpack-production.config.js --progress --colors"
+    "dev": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors",
+    "postinstall": "webpack --config webpack-production.config.js --progress --colors",
+    "start": "node ./build/app.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "express": "^4.14.0",
     "material-ui": "^0.14.4",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
