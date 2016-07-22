@@ -54,6 +54,12 @@ var config = {
   eslint: {
     configFile: '.eslintrc' //Rules for eslint
   },
+
+  externals: {
+    'Config': JSON.stringify({
+      serverUrl: "https://api.kabbage.com/v2/prequalify"
+    })
+  },
 };
 
 module.exports = config;
