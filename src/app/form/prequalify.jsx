@@ -5,13 +5,31 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import SelectField from 'material-ui/lib/SelectField';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import BusinessSelect from './BusinessSelect';
+import Dialog from 'material-ui/lib/Dialog';
+import FlatButton from 'material-ui/lib/flat-button';
 import $ from 'jquery';
 
 let Config = require('Config');
 
 const KabbageForm = React.createClass({
   getInitialState: function() {
-    return { firstName: '', lastName: '', emailAddress: '', businessName: '', phoneNumber: '', yearStarted: '', estimatedFICO: '', estimatedAnnualRevenue: '', grossPercentageFromCards: '', typeOfBusiness: '' }
+    let qualifyAmount;
+    return {
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      businessName: '',
+      phoneNumber: '',
+      yearStarted: '',
+      estimatedFICO: '',
+      estimatedAnnualRevenue: '',
+      grossPercentageFromCards: '',
+      typeOfBusiness: '',
+    },
+    {
+      open: false,
+      denied: false,
+    }
   },
 
   handleNameChange: function(e) {
@@ -45,6 +63,18 @@ const KabbageForm = React.createClass({
   handleBusinessTypeChange: function(e, index, value) {
     this.setState({typeOfBusiness: e.target.value});
   },
+  handleOpen: function() {
+    this.setState({open: true});
+  },
+  handleApply: function() {
+    window.location = this.state.data.RedirectUrl;
+  },
+  handleDenied: function() {
+    this.setState({denied: true});
+  },
+  handleClose: function() {
+    this.setState({denied: false});
+  },
 
   submit: function(e) {
     let self = this;
@@ -75,26 +105,60 @@ const KabbageForm = React.createClass({
 
     $.ajax({
       url: Config.serverUrl,
-      //dataType: 'json',
       type: 'POST',
       data: formBody,
-      success: function(data, textStatus, xhr) {
+      success: function(data) {
         self.setState({data: data});
-        console.log(xhr.responseJSON);
+        if (data.Qualified) {
+          this.state.qualifyAmount = data.QualifyAmount;
+          this.handleOpen();
+        }
+        else {
+          this.handleDenied();
+        }
       }.bind(self),
       error: function(xhr, status, err) {
         console.error(Config.serverUrl, status, err.toString());
       }.bind(self),
     });
 
-    console.log(formBody);
+    //console.log(self.state.data);
 
-    self.setState({firstName: '', lastName: '', emailAddress: '', businessName: '', phoneNumber: '', yearStarted: '', estimatedFICO: '', estimatedAnnualRevenue: '', grossPercentageFromCards: '', typeOfBusiness: ''});
 
+
+    /*self.setState({
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      businessName: '',
+      phoneNumber: '',
+      yearStarted: '',
+      estimatedFICO: '',
+      estimatedAnnualRevenue: '',
+      grossPercentageFromCards: '',
+      typeOfBusiness: '',
+    });*/
   },
 
   render: function () {
+    const actions = [
+      <FlatButton
+        label="Apply Now!"
+        primary={true}
+        onTouchTap={this.handleApply}
+      />,
+    ];
+
+    const denialActions = [
+      <FlatButton
+        label="Acknowledge"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+    ];
+
     return(
+      <div>
       <Paper style={{ position: 'relative', top: 15, width: 500, display: 'inline-flex'}} zDepth={3}>
         <form style={{ textAlign: 'center', margin: '0 auto', width: 270 }} onSubmit={this.submit}>
           <h2>Kabbage Prequalification Form</h2>
@@ -168,6 +232,23 @@ const KabbageForm = React.createClass({
          <br /><br />
         </form>
     </Paper>
+      <Dialog
+        title="You Are Pre-Qualified!"
+        actions={actions}
+        modal={true}
+        open={this.state.open}
+      >
+        You are pre-qualified for ${this.state.qualifyAmount}.
+      </Dialog>
+      <Dialog
+        title="You Did Not Pre-Qualify"
+        actions={denialActions}
+        modal={true}
+        open={this.state.denied}
+      >
+        Unfortunately, you do not qualify for a Kabbage loan at this time.
+      </Dialog>
+    </div>
     );
   },
 });
