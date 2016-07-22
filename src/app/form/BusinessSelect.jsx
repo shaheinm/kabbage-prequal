@@ -16,7 +16,7 @@ const BusinessSelect = React.createClass({
           floatingLabelText="Type of Business"
           value={this.state.value}
           onChange={this.handleChange}
-          style={{overflow: 'hidden'}}>
+          style={{overflow: 'hidden', width: 280}}>
           <MenuItem value="Accounting" primaryText="Accounting" />
           <MenuItem value="Amusement" primaryText="Amusement" />
           <MenuItem value="AutoRepair" primaryText="Auto Repair" />
