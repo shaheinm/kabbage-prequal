@@ -1,6 +1,9 @@
 {
   "name": "kabbage-pre-qual",
   "version": "1.0.0",
+  "engines": {
+    "node": "5.7.0"
+  },
   "description": "Prequalification form for Kabbage API",
   "main": "index.js",
   "scripts": {
