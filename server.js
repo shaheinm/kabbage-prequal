@@ -6,6 +6,6 @@ var app = express();
 var staticPath = path.join(__dirname, '/build');
 app.use(express.static(staticPath));
 
-app.listen(8080, function() {
+app.listen(process.env.PORT || 8080, function() {
   console.log('listening');
 });
