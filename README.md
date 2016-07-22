@@ -7,6 +7,6 @@ This is a React web application which interacts with the Kabbage Prequal API to 
 1. Clone the repository.
 2. In the kabbage-prequal directory, run ```npm install```.
 3. In the same directory, run ```npm run-script dev```.
-4. Open a web browser and navigate to http://localhost:8080.
+4. Open a web browser and navigate to http://localhost:8085.
 
 The application is also running in production at https://kabbageprequal.herokuapp.com/.
